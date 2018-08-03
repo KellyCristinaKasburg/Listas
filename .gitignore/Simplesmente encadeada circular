@@ -1,1 +1,40 @@
+public void inserir(int v) {
+        No novo = new No();
+        novo.valor = v;
+        novo.prox = null;
+        if (prim == null) {
+            prim = novo;
+            prim.prox = prim;
+        } else {
+            if (novo.valor < prim.valor) {
+                novo.prox = prim;
+                prim = novo;
+                novo.prox.prox = prim;
+            } else {
+                No aux = new No();
+                aux = prim;
+                do{
+                    aux = aux.prox;
+                }while(aux.prox != prim);
+                boolean achou = false;
+                No percorre = new No();
+                percorre = prim;
 
+                while (achou != true && percorre.prox != aux.prox) {
+                    if (novo.valor < percorre.prox.valor) {
+                        novo.prox = percorre.prox;
+                        percorre.prox = novo;
+                        achou = true;
+                    } else {
+                        percorre = percorre.prox;
+                    }
+
+                } if(!achou){
+                    aux.prox = novo;
+                    novo.prox= prim;
+                    achou = true;
+                }
+
+            }
+        }
+    }
