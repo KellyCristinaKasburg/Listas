@@ -1,1 +1,18 @@
-
+public void adiciona (Object x) {
+        NO aux = new NO(x);
+        if (vazia()){
+            sentinela = aux;
+            sentinela.anterior = sentinela;
+            sentinela.proximo = sentinela;
+        } else if (sentinela.proximo == sentinela) {
+            aux.proximo = sentinela.proximo;
+            aux.anterior = sentinela;
+            sentinela.proximo = aux;
+            sentinela.anterior = aux;
+        } else {
+            aux.proximo = sentinela.proximo;
+            aux.anterior = sentinela;
+            sentinela.proximo = aux;
+            aux.proximo.anterior = aux;
+        }
+    }
