@@ -1,1 +1,221 @@
+public class NoDuplo {
+    private Integer elemento;
+    private NoDuplo anterior;
+    private NoDuplo proximo;
 
+    public NoDuplo(Integer elemento, NoDuplo anterior, NoDuplo proximo) {
+        this.elemento = elemento;
+        this.anterior= anterior;
+        this.proximo = proximo;
+    }
+
+    public Integer getElemento() {
+        return elemento;
+    }
+    
+    public void setElemento(Integer elemento) {
+        this.elemento = elemento;
+    }
+    
+    public NoDuplo getAnterior(){
+        return anterior;
+    }
+    
+    public void setAnterior(NoDuplo anterior){
+        this.anterior = anterior;
+    }
+    
+    public NoDuplo getProximo() {
+        return proximo;
+    }
+    
+    public void setProximo(NoDuplo proximo) {
+        this.proximo = proximo;
+    }   
+}
+
+public class ListaDuplamenteEncadeada {
+    private Integer tamanho;
+    private NoDuplo header;
+    private NoDuplo trailer;
+
+    public ListaDuplamenteEncadeada() {
+        tamanho = 0;
+        header = new NoDuplo(null, null, null);
+        trailer = new NoDuplo(null, null, null);
+        header.setProximo(trailer);
+        trailer.setAnterior(header);
+    }
+
+    public int getTamanho() {
+        return tamanho;
+    }
+
+    public NoDuplo getPrimeiro() {
+        if (tamanho == 0) {
+            System.out.println("lista vazia");
+            return null;
+        }
+        return header.getProximo();
+    }
+
+    public NoDuplo getUltimo() {
+    
+        if (tamanho == 0) {
+            System.out.println("lista vazia");
+            return null;
+        }
+        return trailer.getAnterior();
+    }
+
+    public void insereInicio(NoDuplo novoNo) {
+    
+        novoNo.setAnterior(header);
+        novoNo.setProximo(header.getProximo());
+        header.getProximo().setAnterior(novoNo);
+        header.setProximo(novoNo);
+        tamanho++;
+        return;
+    }
+
+    public void insereFinal(NoDuplo novoNo) {
+    
+        novoNo.setAnterior(trailer.getAnterior());
+        novoNo.setProximo(trailer);
+        trailer.getAnterior().setProximo(novoNo);
+        trailer.setAnterior(novoNo);
+        tamanho++;
+        return;
+    }
+
+    public void inserePos(NoDuplo novoNo, int pos) {
+    
+        if (pos < 1 || pos > tamanho + 1) {
+            System.out.println("posição invalida");
+            return;
+        }
+        
+        if (tamanho == 0 || pos == 0) {
+            insereInicio(novoNo);
+            return;
+        }
+        
+        if (pos == tamanho + 1) {
+            insereFinal(novoNo);
+            return;
+        }
+
+        NoDuplo aux = header.getProximo();
+        for (int i = 1; i < pos; i++) {
+            aux = aux.getProximo();
+        }
+        
+        novoNo.setProximo(aux);
+        novoNo.setAnterior(aux.getAnterior());
+        aux.getAnterior().setProximo(novoNo);
+        aux.setAnterior(novoNo);
+        tamanho++;
+    }
+
+    public void removeInicio() {
+    
+        if (tamanho == 0) {
+            System.out.println("lista vazia");
+            return;
+        }
+        
+        NoDuplo noRemovido = header.getProximo();
+        header.setProximo(noRemovido.getProximo());
+        header.getProximo().setAnterior(header);
+        noRemovido.setAnterior(null);
+        noRemovido.setProximo(null);
+        tamanho--;
+        return;
+    }
+
+    public void removeFim() {
+    
+        if (tamanho == 0) {
+            System.out.println("lista vazia");
+            return;
+        }
+        
+        NoDuplo noRemovido = trailer.getAnterior();
+        trailer.setAnterior(noRemovido.getAnterior());
+        trailer.getAnterior().setProximo(trailer);
+        noRemovido.setAnterior(null);
+        noRemovido.setProximo(null);
+        tamanho--;
+    }
+
+    public void removePos(int pos) {
+    
+        if (pos < 1 || pos > tamanho) {
+            System.out.println("posição invalida");
+            return;
+        }
+
+        if (pos == 1) {
+            removeInicio();
+            return;
+        }
+
+        if (pos == tamanho) {
+            removeFim();
+            return;
+        }
+
+        NoDuplo noRemovido = header.getProximo();
+        for (int i = 1; i < pos; i++)
+            noRemovido = noRemovido.getProximo();
+        noRemovido.getAnterior().setProximo(noRemovido.getProximo());
+        noRemovido.getProximo().setAnterior(noRemovido.getAnterior());
+        noRemovido.setAnterior(null);
+        noRemovido.setProximo(null);
+        tamanho--;
+    }
+
+    public void ordenarLista() {
+    
+        NoDuplo atual = header.getProximo();
+        NoDuplo prox = atual.getProximo();
+        System.out.println("Atual antes do for " + atual.getElemento());
+        System.out.println("Prox Antes do for " + prox.getElemento());
+        NoDuplo cpAtual = atual;
+        System.out.println("Cpatual antes do For " + cpAtual.getElemento());
+
+        for (int i = 0; i < tamanho - 1; i++) {
+            for (int j = i + 1; j < tamanho; j++) {
+                if (atual.getElemento() > prox.getElemento()) {
+                    cpAtual.setElemento(atual.getElemento());
+                    System.out.println("Cp atual dentro do FOR j + if " + cpAtual.getElemento());
+                    atual.setElemento(prox.getElemento());
+                    System.out.println("Atual dentro do FOR J + if " + atual.getElemento());
+                    prox.setElemento(cpAtual.getElemento());
+                    System.out.println("Prox Dentro do FOR J + if " + prox.getElemento());
+                }
+                prox = prox.getProximo();
+                System.out.println("Prox DENTRO DO FOR J sem IF " + prox.getElemento());
+            }
+            atual = atual.getProximo();
+            System.out.println("Atual dentro do FOR I " + atual.getElemento());
+            prox = atual.getProximo();
+            System.out.println("Prox dentro do FOR I " + prox.getElemento());
+            cpAtual = atual;
+            System.out.println("Cpatual dentro do FOR I " + cpAtual.getElemento());
+        }
+    }
+
+    public void imprimeLista() {
+        if (tamanho == 0) {
+            System.out.println("lista vazia");
+        }
+        NoDuplo aux = header.getProximo();
+        System.out.println("------------- LISTA ATUAL -----------");
+        for (int i = 0; i < tamanho; i++) {
+            System.out.print(" -> " + aux.getElemento() + "\t");
+            aux = aux.getProximo();
+        }
+        System.out.println();
+    }
+}
