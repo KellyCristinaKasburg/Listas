@@ -55,7 +55,7 @@ public class Pilha {
             System.out.println("Digite uma das opções abaixo: "
                     + "\n 1 - Cadastrar novo paciente "
                     + "\n 2 - Atendimento ao paciente "
-                    + "\n 3 - Mostrar fila "
+                    + "\n 3 - Mostrar pilha "
                     + "\n 0 -  Sair ");
             op = sc.nextInt();
             switch (op) {
@@ -73,7 +73,7 @@ public class Pilha {
                         Paciente pac = new Paciente(nome, sexo, cpf, idade);
                         pilha.add(pac);
                     } else {
-                        System.out.println("ERRO            |  Fila Cheia");
+                        System.out.println("ERRO            |  Pilha Cheia");
                     }
                     break;
 
